@@ -114,6 +114,9 @@
                 <input type="hidden" name="gender" value="{{ $validated['gender'] }}">
                 <input type="hidden" name="email" value="{{ $validated['email'] }}">
                 <input type="hidden" name="tel" value="{{ $validated['tel'] }}">
+                <input type="hidden" name="tel1" value="{{ $tel1 }}">
+                <input type="hidden" name="tel2" value="{{ $tel2 }}">
+                <input type="hidden" name="tel3" value="{{ $tel3 }}">
                 <input type="hidden" name="address" value="{{ $validated['address'] }}">
                 <input type="hidden" name="building" value="{{ $validated['building'] ?? '' }}">
                 <input type="hidden" name="category_id" value="{{ $validated['category_id'] }}">
@@ -130,7 +133,7 @@
                         class="px-16 py-3 bg-[#7d7470] hover:bg-[#6b5f57] border border-transparent rounded font-medium text-white transition">
                         送信
                     </button>
-                    <button type="button" onclick="history.back()"
+                    <button type="submit" formaction="{{ route('contact.back') }}" formmethod="post"
                         class="px-8 py-3 text-[#6b5744] transition">
                         修正
                     </button>
