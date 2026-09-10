@@ -20,3 +20,8 @@ Route::post('/contacts/confirm', [ContactController::class, 'confirm'])->name('c
 Route::post('/contacts/back', [ContactController::class, 'back'])->name('contact.back');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
+
+// 管理画面
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', fn() => '管理画面')->name('admin.index');
+});
