@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'content'
+        'content',
     ];
 
     public function contacts(): HasMany

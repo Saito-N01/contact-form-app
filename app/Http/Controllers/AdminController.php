@@ -14,8 +14,7 @@ class AdminController extends Controller
 {
     public function __construct(
         private ContactSearchService $contactSearchService,
-    ) {
-    }
+    ) {}
 
     /**
      * 管理画面一覧（検索・ページネーション）

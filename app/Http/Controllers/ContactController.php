@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\ExportContactRequest;
-use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Http\Requests\StoreContactRequest;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Tag;
 use App\Services\ContactSearchService;
-use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ContactController extends Controller
 {
     public function __construct(
         private ContactSearchService $contactSearchService,
-    ) {
-    }
+    ) {}
 
     /**
      * お問い合わせフォーム入力ページ表示
@@ -27,6 +26,7 @@ class ContactController extends Controller
     {
         $categories = Category::orderBy('id')->get();
         $tags = Tag::orderBy('id')->get();
+
         return view('contact.index', compact('categories', 'tags'));
     }
 
@@ -74,7 +74,7 @@ class ContactController extends Controller
             'detail' => $validated['detail'],
         ]);
 
-        if (!empty($validated['tag_ids'])) {
+        if (! empty($validated['tag_ids'])) {
             $contact->tags()->attach($validated['tag_ids']);
         }
 
@@ -101,7 +101,7 @@ class ContactController extends Controller
             ->with(['category'])
             ->get();
 
-        $fileName = 'contacts_' . now()->format('Ymd_His') . '.csv';
+        $fileName = 'contacts_'.now()->format('Ymd_His').'.csv';
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
@@ -129,7 +129,7 @@ class ContactController extends Controller
             foreach ($contacts as $contact) {
                 fputcsv($stream, [
                     $contact->id,
-                    $contact->last_name . ' ' . $contact->first_name,
+                    $contact->last_name.' '.$contact->first_name,
                     $genderLabels[$contact->gender] ?? '',
                     $contact->email,
                     $contact->tel,
@@ -145,4 +145,3 @@ class ContactController extends Controller
         }, $fileName, $headers);
     }
 }
-
