@@ -5,62 +5,54 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Tag;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * タグ追加
      */
-    public function index()
+    public function store(StoreTagRequest $request): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+
+        Tag::create([
+            'name' => $validated['name'],
+        ]);
+
+        return redirect()->route('admin.index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * タグ編集ページ表示
      */
-    public function create()
+    public function edit(Tag $tag): View
     {
-        //
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * タグ更新
      */
-    public function store(StoreTagRequest $request)
+    public function update(UpdateTagRequest $request, Tag $tag): RedirectResponse
     {
-        //
+        $validated = $request->validated();
+
+        $tag->update([
+            'name' => $validated['name'],
+        ]);
+
+        return redirect()->route('admin.index');
     }
 
     /**
-     * Display the specified resource.
+     * タグ削除
      */
-    public function show(Tag $tag)
+    public function destroy(Tag $tag): RedirectResponse
     {
-        //
-    }
+        $tag->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tag $tag)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTagRequest $request, Tag $tag)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tag $tag)
-    {
-        //
+        return redirect()->route('admin.index');
     }
 }
